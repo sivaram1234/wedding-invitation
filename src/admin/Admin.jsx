@@ -41,7 +41,7 @@ export default function Admin() {
     document.title = 'Invitation Editor';
     (async () => {
       const status = await getServerStatus();
-      const { config, mode } = await loadConfig();
+      const { config, mode } = await loadConfig({ includeLocal: true });
       setBoot({ loading: false, status, published: config, mode });
       setAuthed(mode !== 'cloud' || Boolean(getToken()));
     })();

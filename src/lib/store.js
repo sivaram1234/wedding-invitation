@@ -24,7 +24,12 @@ export function getServerStatus() {
   return statusPromise;
 }
 
-export async function loadConfig() {
+const isLocalhost = () => ['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname);
+
+// `includeLocal`: also consider a design saved only in this browser. The editor
+// always does; the guest page only does on localhost, so on the deployed site
+// every visitor sees the same published design (or the default).
+export async function loadConfig({ includeLocal = isLocalhost() } = {}) {
   const status = await getServerStatus();
   if (status.cloud) {
     try {
@@ -34,11 +39,13 @@ export async function loadConfig() {
       /* fall through to static / local copies */
     }
   }
-  try {
-    const local = await idbGet(LOCAL_KEY);
-    if (local) return { config: normalizeConfig(local), mode: status.cloud ? 'cloud' : 'local' };
-  } catch {
-    /* IndexedDB unavailable (private mode) */
+  if (includeLocal) {
+    try {
+      const local = await idbGet(LOCAL_KEY);
+      if (local) return { config: normalizeConfig(local), mode: status.cloud ? 'cloud' : 'local' };
+    } catch {
+      /* IndexedDB unavailable (private mode) */
+    }
   }
   try {
     // Optional: a config exported from /admin and committed as public/config.json.
