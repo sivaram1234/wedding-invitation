@@ -1,3 +1,5 @@
+import { THEME_PRESETS } from './themes.js';
+
 // The complete invitation content. Everything here is editable from /admin.
 // Image fields left empty render a decorative placeholder instead of a photo.
 
@@ -33,24 +35,9 @@ const defaultConfig = {
   },
 
   theme: {
-    preset: 'blush',
-    colors: {
-      bg: '#fdf6f3',
-      bgAlt: '#f6e6e0',
-      surface: '#fffbf9',
-      primary: '#9c4257',
-      accent: '#c4976a',
-      text: '#4a2c33',
-      muted: '#93727a',
-      onPrimary: '#fff7f5',
-      envelope: '#e2aeab',
-      envelopeInk: '#7b3a44',
-    },
-    fonts: {
-      script: 'Parisienne',
-      heading: 'Cormorant Garamond',
-      body: 'EB Garamond',
-    },
+    preset: 'midnight',
+    colors: { ...THEME_PRESETS.midnight.colors },
+    fonts: { ...THEME_PRESETS.midnight.fonts },
     frame: 'arch', // 'arch' | 'scalloped' | 'pointed' | 'oval'
     portraitFrame: 'classic', // 'classic' | 'wreath'
     florals: false,

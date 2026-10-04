@@ -1,19 +1,19 @@
 body {
   margin: 0;
-  background: #fbf5ea;
+  background: #141a2e;
 }
 .boot {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  background: #fbf5ea;
+  background: #141a2e;
 }
 .boot__ring {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  border: 2px solid #e8d5b0;
-  border-top-color: #b8862f;
+  border: 2px solid #3a4266;
+  border-top-color: #d4a853;
   animation: boot-spin 0.9s linear infinite;
 }
 @keyframes boot-spin {
