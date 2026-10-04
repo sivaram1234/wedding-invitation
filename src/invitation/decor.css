@@ -1,0 +1,460 @@
+.inv {
+  --leaf: color-mix(in srgb, var(--accent) 50%, #6e8c5c);
+  --bloom: color-mix(in srgb, var(--primary) 28%, #ffffff);
+}
+
+/* ───────────────────────── Embossed backgrounds ───────────────────────── */
+.inv--emboss {
+  background-image: var(--main-image);
+  background-position: var(--main-pos);
+  background-size: var(--main-size);
+}
+.inv--emboss .section--alt {
+  background-color: var(--bg-alt);
+  background-image: var(--alt-image);
+  background-position: var(--alt-pos);
+  background-size: var(--alt-size);
+}
+
+.section,
+.hero {
+  isolation: isolate;
+}
+
+/* ───────────────────────── Full-screen envelope cover ───────────────────────── */
+.env {
+  position: fixed !important;
+  inset: 0;
+  z-index: 80 !important;
+  overflow: hidden;
+  perspective: 2200px;
+  cursor: pointer;
+  color: var(--env-ink);
+  background: color-mix(in srgb, var(--env) 70%, black);
+  -webkit-tap-highlight-color: transparent;
+}
+.env.is-opening {
+  animation: env-out 0.7s ease 1s forwards;
+  pointer-events: none;
+}
+.env__inside {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 45%, color-mix(in srgb, var(--env) 60%, white), color-mix(in srgb, var(--env) 88%, black) 80%);
+}
+.env__pocket {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-color: var(--env);
+  clip-path: polygon(0 36%, 50% 54%, 100% 36%, 100% 100%, 0 100%);
+}
+.env__pocket::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 85%, transparent 35%, rgba(0, 0, 0, 0.14));
+  pointer-events: none;
+}
+.env__content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: max(7vh, 36px);
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  z-index: 1;
+}
+.env__flourish {
+  width: min(230px, 60vw);
+  color: var(--accent);
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.35));
+}
+.env__flourish--flip {
+  transform: scaleY(-1);
+}
+.env__tagline {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-size: clamp(1.05rem, 4.4vw, 1.5rem);
+  font-weight: 500;
+  color: var(--env-ink);
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.35),
+    0 -1px 0 rgba(0, 0, 0, 0.18);
+}
+.env__names {
+  font-family: var(--font-script);
+  font-size: clamp(1.9rem, 8vw, 2.8rem);
+  line-height: 1.15;
+  color: var(--env-ink);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.env__names span {
+  color: var(--accent);
+  font-size: 0.75em;
+}
+.env__date {
+  font-family: var(--font-heading);
+  letter-spacing: 0.32em;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.env__flap-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  transform-origin: 50% 0;
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.25));
+  pointer-events: none;
+  transition:
+    transform 1s cubic-bezier(0.45, 0, 0.25, 1) 0.15s,
+    opacity 0.4s ease 0.75s;
+}
+/* The flap folds gently back, away from the viewer. */
+.env.is-opening .env__flap-wrap {
+  transform: rotateX(-160deg);
+  opacity: 0;
+}
+.env__flap {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--env) 90%, white), color-mix(in srgb, var(--env) 96%, white));
+  clip-path: polygon(0 0, 100% 0, 100% 40%, 50% 60%, 0 40%);
+}
+.env__flap-edge {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  stroke: var(--accent);
+}
+
+.env__seal {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 60%;
+  width: clamp(100px, 27vw, 136px);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  filter: drop-shadow(0 7px 10px rgba(0, 0, 0, 0.35));
+  animation: seal-breathe 2.6s ease-in-out infinite;
+  -webkit-tap-highlight-color: transparent;
+}
+.env.is-opening .env__seal {
+  animation: seal-out 0.45s ease forwards;
+}
+.wax {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.wax svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.wax__text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-script);
+  font-size: clamp(1.15rem, 5vw, 1.55rem);
+  line-height: 0.95;
+  color: #74500f;
+  text-shadow:
+    0 1px 0 rgba(255, 240, 200, 0.75),
+    0 -1px 0 rgba(90, 60, 10, 0.35);
+  transform: rotate(-8deg);
+}
+.wax__text .is-small {
+  font-size: 0.7em;
+}
+
+.music-btn--cover {
+  z-index: 90 !important;
+  top: max(14px, env(safe-area-inset-top));
+  bottom: auto;
+  right: 14px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* ───────────────────────── Floral sprigs ───────────────────────── */
+.sprig {
+  display: block;
+  overflow: visible;
+}
+.corner {
+  position: absolute !important;
+  z-index: -1;
+  width: clamp(130px, 20vw, 270px);
+  max-width: none !important;
+  margin: 0 !important;
+  pointer-events: none;
+  opacity: 0.85;
+  animation: sprig-sway 8s ease-in-out infinite;
+}
+.corner--tl {
+  top: 0;
+  left: 0;
+  scale: 1 -1;
+}
+.corner--br {
+  bottom: 0;
+  right: 0;
+  scale: -1 1;
+  animation-delay: -4s;
+}
+.hero .corner {
+  width: clamp(140px, 19vw, 270px);
+}
+.hero .corner--br {
+  bottom: -30px;
+}
+
+/* ───────────────────────── Photo frames ───────────────────────── */
+.aframe {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  color: var(--accent);
+  margin: 28px 26px 34px;
+}
+.aframe__shadow {
+  position: absolute;
+  inset: 0;
+  filter: drop-shadow(0 24px 30px color-mix(in srgb, var(--text) 26%, transparent));
+}
+.aframe__clip {
+  position: absolute;
+  inset: 0;
+  background: var(--surface);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+.aframe__clip .photo {
+  width: 100%;
+  height: 100%;
+}
+.aframe__line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.aframe__line--outer {
+  inset: -12px;
+  width: calc(100% + 24px);
+  height: calc(100% + 24px);
+}
+.aframe__line--dots {
+  inset: -24px;
+  width: calc(100% + 48px);
+  height: calc(100% + 48px);
+}
+.aframe__line--inner {
+  inset: 11px;
+  width: calc(100% - 22px);
+  height: calc(100% - 22px);
+  opacity: 0.9;
+}
+.aframe__sprig {
+  position: absolute;
+  bottom: -9%;
+  width: 46%;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.12));
+}
+.aframe__sprig--left {
+  left: -22%;
+  scale: -1 1;
+}
+.aframe__sprig--right {
+  right: -22%;
+  width: 34%;
+  bottom: -6%;
+}
+
+/* Wreath portrait */
+.wreath {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+}
+.wreath__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  animation: wreath-breathe 6s ease-in-out infinite;
+}
+.wreath__photo {
+  position: absolute;
+  inset: 20%;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid var(--surface);
+  box-shadow: var(--shadow);
+}
+.person__photo:has(.wreath) {
+  width: clamp(190px, 23vw, 250px);
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
+  margin-bottom: 4px;
+}
+.couple__amp {
+  top: 100px;
+}
+
+/* Countdown sprigs */
+.countdown__card {
+  overflow: visible;
+}
+.countdown__sprig {
+  position: absolute;
+  top: -64px;
+  width: 110px;
+  pointer-events: none;
+}
+.countdown__sprig--left {
+  left: -50px;
+  scale: -1 1;
+}
+.countdown__sprig--right {
+  right: -50px;
+}
+
+/* ───────────────────────── Twinkling stars ───────────────────────── */
+.sparkles {
+  position: fixed !important;
+  inset: 0;
+  z-index: 0 !important;
+  pointer-events: none;
+  overflow: hidden;
+}
+.sparkles span {
+  position: absolute;
+  background: var(--accent);
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+  opacity: 0;
+  animation-name: twinkle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* ───────────────────────── Hero background image ───────────────────────── */
+.hero__bgimg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-size: cover;
+  background-position: center;
+}
+.hero__bgimg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 70%, transparent), color-mix(in srgb, var(--bg) 90%, transparent));
+}
+
+/* ───────────────────────── Footer ───────────────────────── */
+.footer__florals {
+  display: flex;
+  justify-content: center;
+  width: min(300px, 70%);
+  margin-bottom: -6px;
+}
+.footer__sprig {
+  width: 50%;
+}
+.footer__florals .footer__sprig:first-child {
+  scale: -1 1;
+}
+
+/* ───────────────────────── Keyframes ───────────────────────── */
+@keyframes env-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes seal-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+@keyframes seal-out {
+  30% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+}
+@keyframes sprig-sway {
+  0%,
+  100% {
+    rotate: -1.5deg;
+  }
+  50% {
+    rotate: 1.5deg;
+  }
+}
+@keyframes wreath-breathe {
+  50% {
+    transform: scale(1.03) rotate(2deg);
+  }
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.4) rotate(0deg);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1) rotate(45deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sparkles {
+    display: none;
+  }
+  .env__seal,
+  .corner,
+  .wreath__ring {
+    animation: none !important;
+  }
+}
