@@ -28,6 +28,13 @@ export function normalizeConfig(saved) {
   if (saved && (saved.version ?? 1) < 2) {
     Object.assign(merged.theme, { emboss: false, florals: false, sparkles: false, portraitFrame: 'classic' });
   }
+  // Version 3 made Royal Midnight the default: designs saved before then switch
+  // to it once. Colours chosen in /admin afterwards are saved as version 3 and kept.
+  if (saved && (saved.version ?? 1) < 3) {
+    merged.theme.preset = 'midnight';
+    merged.theme.colors = { ...THEME_PRESETS.midnight.colors };
+    merged.theme.fonts = { ...THEME_PRESETS.midnight.fonts };
+  }
   merged.version = defaultConfig.version;
   // Keep any sections introduced after the config was saved.
   const known = new Set(merged.sections.map((s) => s.id));

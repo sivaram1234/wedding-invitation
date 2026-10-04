@@ -27,7 +27,7 @@ export const EVENT_ICONS = {
 };
 
 const defaultConfig = {
-  version: 2,
+  version: 3,
 
   meta: {
     title: 'Ananya & Arjun · Wedding Invitation',
